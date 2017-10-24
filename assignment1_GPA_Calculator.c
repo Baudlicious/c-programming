@@ -2,14 +2,14 @@
 
 
 int main(){
-  int size;
-  int marks[10];
-  int i;
+  int size, i, sum, menu;
+  float marks[20];
   char restart;
-  char classes[20][8]; //two dimensional array, 20 items, 8 pieces long each
-  int sum;
-  int menu;
+  char classes[20][15]; //two dimensional array, 20 items, 8 pieces long each
   float gpa;
+  int weight[20];
+  float gwa, weighted_sum;
+
 
   sum = 0;
   printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -71,21 +71,31 @@ int main(){
 
           // Asks for each class for the size of the input
           printf("\n-------------------------------------------------------");
-          printf("\n[+] Enter a Class(ex. INFO1220): ");
-          scanf(" %8s", classes[i]);
+          printf("\n[+] Enter a Class/Assignment(ex. INFO1220 or Assignment1): ");
+          scanf(" %15s", classes[i]);
 
           do { // Check to make sure the value entered is a number and not greate than 100
-          printf("[+] Enter the mark for the class: ");
+          printf("[+] Enter the GPA weight: ");
           fflush(stdin);
           //repeats prompt for mark if not a number or if number greater than 100
-        }while ((scanf(" %d[3]", &marks[i]) != 1) || (marks[i] > 100));
+          }while ((scanf(" %d[3]", &weight[i]) != 1) || (weight[i] > 100));
+
+          do { // Check to make sure the value entered is a number and not greate than 100
+          printf("[+] Enter the percentage of the grade you recieved: ");
+          fflush(stdin);
+          //repeats prompt for mark if not a number or if number greater than 100
+        }while ((scanf(" %f[3]", &marks[i]) != 1) || (marks[i] > 100));
+
 
         }
 
+        printf("\n---------------------------------------------------------\n");
+        printf("                Classes Evaluated:                      ");
+        printf("\n---------------------------------------------------------\n");
         // Interate through the array, printing out Class[2] with Mark[2]
         for(i = 0; i < size; i++)
         {
-          printf("[+] %s = %d\n", classes[i], marks[i]);
+          printf("[+] %s = %f\n", classes[i], marks[i]);
         }
 
         // Set sum to 0 or else we print garbage
@@ -95,9 +105,41 @@ int main(){
           sum += marks[i];
         }
 
-        gpa = sum / size;
-        //printf("Sum = %d\n", sum);
-        printf("GPA = %.2f\n", gpa);
+
+        gwa = 0;
+        for (i = 0; i < size; i++){
+           gwa += weight[i] * marks[i];
+        }
+        // printf("GWA %f", gwa);
+
+        weighted_sum = 0;
+        for (i = 0; i < size; i++){
+          weighted_sum += weight[i];
+        }
+        // printf("Credit Sum %f", weighted_sum);
+        gpa = gwa / weighted_sum;
+
+        if (gpa >= 90){
+          printf("\nYour GPA is 4.2, which is %.2f percent, with a letter grade of 'A+'\n", gpa);
+        } else if (gpa >= 80) {
+          printf("\nYour GPA is 4.0, which is %.2f percent, with a letter grade of 'A'\n", gpa);
+        } else if (gpa >= 75) {
+          printf("\nYour GPA is 3.5, which is %.2f percent, with a letter grade of 'B+'\n", gpa);
+        } else if (gpa >= 70) {
+          printf("\nYour GPA is 3.0, which is %.2f percent, with a letter grade of 'B'\n", gpa);
+        } else if (gpa >= 65) {
+          printf("\nYour GPA is 2.5, which is %.2f percent, with a letter grade of 'C+'\n", gpa);
+        } else if (gpa >= 60){
+          printf("\nYour GPA is 2.0, which is %.2f percent, with a letter grade of 'C'\n", gpa);
+        } else if (gpa >= 55){
+          printf("\nYour GPA is 1.5, which is %.2f percent, with a letter grade of 'D+'\n", gpa);
+        } else if (gpa >= 50) {
+          printf("\nYour GPA is 1.0, which is %.2f percent, with a letter grade of 'D'\n", gpa);
+        } else {
+          printf("\nYour average is %.0f and you have failed\n", gpa);
+        }
+
+        printf("\nGPA = %.2f\n", gpa);
 
 
 
